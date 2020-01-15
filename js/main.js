@@ -1,24 +1,25 @@
-// var colors = ["red", "green", "blue"]
-// colors.forEach(function(color) {
-// 	document.write(color);
-// });
+$("#ButtonForm").click(function(e){
+  e.preventDefault();
 
-// var numbers = [1, 3, 5, 7, 9], 
-// 	sum = 0
+  let word = $("#dictionary-search").val()
 
-// function addNumbers(numb) {
-// 	sum += numb
-// }
+  $('#mySelector').empty();
 
-// numbers.forEach(addNumbers)
-// console.log(sum + 1)
-
-{
-  var user = "Ryan";
-}
-console.log(user); // Ryan
-for (let i = 0; i < 10; i++) {
-  console.log(i);
-}
-
-console.log(8/2*(2+2))
+      $.ajax({
+          url: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+word+'?key=6010fb8f-d786-49d6-bc01-a01d66074fd5',
+          dataType:'json',
+          type: 'GET',
+          success:function(res){
+            console.log(res);
+            res.forEach(element => {
+              console.log(element.hwi)
+              $('<div/>', {
+                id: element.hwi.hw,
+                class: 'some-class',
+                title: 'now this div has a title!',
+                text: 'Word: ' + element.hwi.hw + ' Definition: ' + element.shortdef[0],
+            }).appendTo('#mySelector');
+            });
+          }
+      });
+  });
